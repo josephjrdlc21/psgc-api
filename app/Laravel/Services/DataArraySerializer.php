@@ -1,4 +1,6 @@
-<?php namespace App\Laravel\Services;
+<?php 
+
+namespace App\Laravel\Services;
 
 use League\Fractal\Serializer\ArraySerializer;
 
