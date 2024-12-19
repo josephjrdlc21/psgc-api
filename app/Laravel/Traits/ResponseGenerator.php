@@ -4,6 +4,7 @@ namespace App\Laravel\Traits;
 
 trait ResponseGenerator
 {
+    protected $response;
 
     public function db_error()
     {

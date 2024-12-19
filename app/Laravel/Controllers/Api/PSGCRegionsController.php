@@ -15,6 +15,7 @@ class PSGCRegionsController extends Controller{
     use ResponseGenerator;
 
     protected $data;
+    protected $response;
 
     public function __construct(){
         parent::__construct();
