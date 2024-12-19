@@ -8,7 +8,7 @@ use App\Laravel\Requests\PageRequest;
 
 use App\Laravel\Traits\ResponseGenerator;
 
-use App\Laravel\Transformers\PSGCRegionsTransformer;
+use App\Laravel\Transformers\PSGCRegionTransformer;
 use App\Laravel\Transformers\TransformerManager;
 
 class PSGCRegionsController extends Controller{
@@ -28,7 +28,7 @@ class PSGCRegionsController extends Controller{
         $this->response['status'] = true;
         $this->response['status_code'] = "REGION_LIST";
         $this->response['msg'] = "Available REGIONS list.";
-        $this->response['data'] = $this->transformer->transform($regions, new PSGCRegionsTransformer(), 'collection');
+        $this->response['data'] = $this->transformer->transform($regions, new PSGCRegionTransformer(), 'collection');
         $this->response_code = 200;
 
         callback:

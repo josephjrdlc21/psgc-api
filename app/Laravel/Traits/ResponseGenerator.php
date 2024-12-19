@@ -67,7 +67,7 @@ trait ResponseGenerator
             'meta' => [
                 'copyright' => "Copyright " . now()->format("Y") . " PSGC API",
                 'authors' => [
-                    "ZIAPLEX",
+                    "PSGC",
                 ],
                 'jsonapi' => [
                     'version' => env("APP_VERSION"),
