@@ -35,4 +35,17 @@ class PSGCRegionsController extends Controller{
         callback:
         return response()->json($this->api_response($this->response), $this->response_code);
     }
+
+    public function show(PageRequest $request,$id = null){
+        $regions = PSGCRegion::where('region_code', $id)->where('region_status', 'active')->get();
+
+        $this->response['status'] = true;
+        $this->response['status_code'] = "SHOW_REGION";
+        $this->response['msg'] = "Show REGION.";
+        $this->response['data'] = $this->transformer->transform($regions, new PSGCRegionTransformer(), 'collection');
+        $this->response_code = 200;
+
+        callback:
+        return response()->json($this->api_response($this->response), $this->response_code);
+    }
 }
