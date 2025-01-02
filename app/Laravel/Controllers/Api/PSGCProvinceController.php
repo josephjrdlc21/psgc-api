@@ -2,16 +2,16 @@
 
 namespace App\Laravel\Controllers\Api;
 
-use App\Laravel\Models\PSGCRegion;
+use App\Laravel\Models\PSGCProvince;
 
 use App\Laravel\Requests\PageRequest;
 
 use App\Laravel\Traits\ResponseGenerator;
 
-use App\Laravel\Transformers\PSGCRegionTransformer;
+use App\Laravel\Transformers\PSGCProvinceTransformer;
 use App\Laravel\Transformers\TransformerManager;
 
-class PSGCRegionsController extends Controller{
+class PSGCProvinceController extends Controller{
     use ResponseGenerator;
 
     protected $transformer;
@@ -26,12 +26,12 @@ class PSGCRegionsController extends Controller{
     }
 
     public function index(PageRequest $request){
-        $regions = PSGCRegion::where('region_status', 'active')->get();
+        $province = PSGCProvince::where('province_status', 'active')->get();
 
         $this->response['status'] = true;
-        $this->response['status_code'] = "REGION_LIST";
-        $this->response['msg'] = "Available REGIONS list.";
-        $this->response['data'] = $this->transformer->transform($regions, new PSGCRegionTransformer(), 'collection');
+        $this->response['status_code'] = "PROVINCE_LIST";
+        $this->response['msg'] = "Available PROVINCES list.";
+        $this->response['data'] = $this->transformer->transform($province, new PSGCProvinceTransformer(), 'collection');
         $this->response_code = 200;
 
         callback:
@@ -39,12 +39,12 @@ class PSGCRegionsController extends Controller{
     }
 
     public function show(PageRequest $request,$id = null){
-        $regions = PSGCRegion::where('region_code', $id)->where('region_status', 'active')->get();
+        $province = PSGCProvince::where('province_code', $id)->where('province_status', 'active')->get();
 
         $this->response['status'] = true;
-        $this->response['status_code'] = "SHOW_REGION";
-        $this->response['msg'] = "Show REGION";
-        $this->response['data'] = $this->transformer->transform($regions, new PSGCRegionTransformer(), 'collection');
+        $this->response['status_code'] = "SHOW_PROVINCE";
+        $this->response['msg'] = "Show PROVINCE";
+        $this->response['data'] = $this->transformer->transform($province, new PSGCProvinceTransformer(), 'collection');
         $this->response_code = 200;
 
         callback:
