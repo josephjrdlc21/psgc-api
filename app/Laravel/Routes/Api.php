@@ -3,6 +3,7 @@
 Route::group(['as' => "api.", 'prefix' => "api", 'namespace' => "Api", 'middleware' => ["api"]], function(){
     Route::group(['prefix' => "regions", 'as' => "regions."], function(){
         Route::get('/', ['as' => "index", 'uses' => "PSGCRegionsController@index"]);
+        Route::post('/store', ['as' => "store", 'uses' => "PSGCRegionsController@store"]);
         Route::get('/show/{id?}', ['as' => "show", 'uses' => "PSGCRegionsController@show"]);
     });
     Route::group(['prefix' => "provinces", 'as' => "provinces."], function(){
