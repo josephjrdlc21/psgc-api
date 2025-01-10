@@ -41,19 +41,6 @@ class PSGCRegionsController extends Controller{
         return response()->json($this->api_response($this->response), $this->response_code);
     }
 
-    public function show(PageRequest $request,$id = null){
-        $regions = PSGCRegion::where('region_code', $id)->where('region_status', 'active')->get();
-
-        $this->response['status'] = true;
-        $this->response['status_code'] = "SHOW_REGION";
-        $this->response['msg'] = "Show REGION";
-        $this->response['data'] = $this->transformer->transform($regions, new PSGCRegionTransformer(), 'collection');
-        $this->response_code = 200;
-
-        callback:
-        return response()->json($this->api_response($this->response), $this->response_code);
-    }
-
     public function store(PSGCRegionRequest $request){
         DB::beginTransaction();
         try{
@@ -68,6 +55,7 @@ class PSGCRegionsController extends Controller{
             $this->response['status'] = true;
             $this->response['status_code'] = "REGION_CREATED";
             $this->response['msg'] = "Region has been successfully created.";
+            $this->response['data'] = $this->transformer->transform($region, new PSGCRegionTransformer(), 'item');
             $this->response_code = 201;
             goto callback;
         }catch(\Exception $e){
@@ -79,6 +67,81 @@ class PSGCRegionsController extends Controller{
             $this->response_code = 403;
             goto callback;
         }
+
+        callback:
+        return response()->json($this->api_response($this->response), $this->response_code);
+    }
+
+    public function update(PSGCRegionRequest $request,$id = null){
+        $region = PSGCRegion::where('region_code', $id)->first();
+
+        if(!$region){
+            $error = $this->not_found_error();
+            return response()->json($error['body'], $error['code']);  
+        }
+
+        DB::beginTransaction();
+        try{
+            $region->region_desc = strtoupper($request->input('region_desc'));
+            $region->region_status = strtolower($request->input('region_status'));
+            $region->save();
+
+            DB::commit();
+
+            $this->response['status'] = true;
+            $this->response['status_code'] = "REGION_UPDATED";
+            $this->response['msg'] = "Region has been successfully updated.";
+            $this->response['data'] = $this->transformer->transform($region, new PSGCRegionTransformer(), 'item');
+            $this->response_code = 200;
+            goto callback;
+        }catch(\Exception $e){
+            DB::rollback();
+
+            $this->response['status'] = false;
+            $this->response['status_code'] = "FAILED";
+            $this->response['msg'] = "Unable to update region.";
+            $this->response_code = 403;
+            goto callback;
+        }
+
+        callback:
+        return response()->json($this->api_response($this->response), $this->response_code);
+    }
+
+    public function destroy(PageRequest $request,$id = null){
+        $region = PSGCRegion::where('region_code', $id)->first();
+
+        if(!$region){
+            $error = $this->not_found_error();
+            return response()->json($error['body'], $error['code']);  
+        }
+
+        if($region->delete()){
+            $this->response['status'] = true;
+            $this->response['status_code'] = "REGION_DELETED";
+            $this->response['msg'] = "Region has been successfully deleted.";
+            $this->response['data'] = $this->transformer->transform($region, new PSGCRegionTransformer(), 'item');
+            $this->response_code = 200;
+            goto callback;
+        }
+
+        callback:
+        return response()->json($this->api_response($this->response), $this->response_code);
+    }
+
+    public function show(PageRequest $request,$id = null){
+        $region = PSGCRegion::where('region_code', $id)->where('region_status', 'active')->first();
+
+        if(!$region){
+            $error = $this->not_found_error();
+            return response()->json($error['body'], $error['code']);  
+        }
+
+        $this->response['status'] = true;
+        $this->response['status_code'] = "SHOW_REGION";
+        $this->response['msg'] = "Show REGION";
+        $this->response['data'] = $this->transformer->transform($region, new PSGCRegionTransformer(), 'item');
+        $this->response_code = 200;
 
         callback:
         return response()->json($this->api_response($this->response), $this->response_code);
