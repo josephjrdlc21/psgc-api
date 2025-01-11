@@ -10,6 +10,9 @@ Route::group(['as' => "api.", 'prefix' => "api", 'namespace' => "Api", 'middlewa
     });
     Route::group(['prefix' => "provinces", 'as' => "provinces."], function(){
         Route::get('/', ['as' => "index", 'uses' => "PSGCProvinceController@index"]);
+        Route::post('/store', ['as' => "store", 'uses' => "PSGCProvinceController@store"]);
+        Route::post('/update/{id?}', ['as' => "update", 'uses' => "PSGCProvinceController@update"]);
+        Route::any('/delete/{id?}', ['as' => "delete", 'uses' => "PSGCProvinceController@destroy"]);
         Route::get('/show/{id?}', ['as' => "show", 'uses' => "PSGCProvinceController@show"]);
     });
     Route::group(['prefix' => "citymuns", 'as' => "citymuns."], function(){

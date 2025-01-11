@@ -39,12 +39,12 @@ class PSGCBarangayController extends Controller{
     }
 
     public function show(PageRequest $request,$id = null){
-        $barangay = PSGCBarangay::where('barangay_code', $id)->where('barangay_status', 'active')->get();
+        $barangay = PSGCBarangay::where('barangay_code', $id)->where('barangay_status', 'active')->first();
 
         $this->response['status'] = true;
         $this->response['status_code'] = "SHOW_BARANGAY";
         $this->response['msg'] = "Show BARANGAY";
-        $this->response['data'] = $this->transformer->transform($barangay, new PSGCBarangayTransformer(), 'collection');
+        $this->response['data'] = $this->transformer->transform($barangay, new PSGCBarangayTransformer(), 'item');
         $this->response_code = 200;
 
         callback:

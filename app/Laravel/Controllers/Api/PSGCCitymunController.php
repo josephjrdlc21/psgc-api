@@ -39,12 +39,12 @@ class PSGCCitymunController extends Controller{
     }
 
     public function show(PageRequest $request,$id = null){
-        $citymun = PSGCCitymun::where('citymun_code', $id)->where('citymun_status', 'active')->get();
+        $citymun = PSGCCitymun::where('citymun_code', $id)->where('citymun_status', 'active')->first();
 
         $this->response['status'] = true;
         $this->response['status_code'] = "SHOW_CITYMUN";
         $this->response['msg'] = "Show CITYMUN";
-        $this->response['data'] = $this->transformer->transform($citymun, new PSGCCitymunTransformer(), 'collection');
+        $this->response['data'] = $this->transformer->transform($citymun, new PSGCCitymunTransformer(), 'item');
         $this->response_code = 200;
 
         callback:
