@@ -136,6 +136,11 @@ class PSGCProvinceController extends Controller{
     public function show(PageRequest $request,$id = null){
         $province = PSGCProvince::where('province_code', $id)->where('province_status', 'active')->first();
 
+        if(!$province){
+            $error = $this->not_found_error();
+            return response()->json($error['body'], $error['code']);  
+        }
+
         $this->response['status'] = true;
         $this->response['status_code'] = "SHOW_PROVINCE";
         $this->response['msg'] = "Show PROVINCE";

@@ -17,6 +17,9 @@ Route::group(['as' => "api.", 'prefix' => "api", 'namespace' => "Api", 'middlewa
     });
     Route::group(['prefix' => "citymuns", 'as' => "citymuns."], function(){
         Route::get('/', ['as' => "index", 'uses' => "PSGCCitymunController@index"]);
+        Route::post('/store', ['as' => "store", 'uses' => "PSGCCitymunController@store"]);
+        Route::post('/update/{id?}', ['as' => "update", 'uses' => "PSGCCitymunController@update"]);
+        Route::any('/delete/{id?}', ['as' => "delete", 'uses' => "PSGCCitymunController@destroy"]);
         Route::get('/show/{id?}', ['as' => "show", 'uses' => "PSGCCitymunController@show"]);
     });
     Route::group(['prefix' => "barangays", 'as' => "barangays."], function(){
