@@ -4,7 +4,7 @@ namespace App\Laravel\Requests\Api;
 
 use App\Laravel\Requests\ApiRequestManager;
 
-class PSGCCitymunRequest extends ApiRequestManager
+class PSGCBarangayRequest extends ApiRequestManager
 { 
     /**
     * Determine if the user is authorized to make this request.
@@ -27,14 +27,15 @@ class PSGCCitymunRequest extends ApiRequestManager
         $rules = [
             'region_code' => "required|is_region_code",
             'province_code' => "required|is_province_code",
-            'citymun_sku' => "required",
-            'citymun_code' => "required|unique:psgc_citymuns,citymun_code,{$id},citymun_code",
-            'citymun_desc' => "required",
-            'citymun_status' => "required"
+            'citymun_code' => "required|is_citymun_code",
+            'barangay_code' => "required|unique:psgc_barangays,barangay_code,{$id},barangay_code",
+            'barangay_desc' => "required",
+            'zipcode' => "required",
+            'barangay_status' => "required"
         ];
 
         if($id > 0){
-            $rules['citymun_code'] = "nullable|unique:psgc_citymuns,citymun_code,{$id},citymun_code";
+            $rules['barangay_code'] = "nullable|unique:psgc_barangays,barangay_code,{$id},barangay_code";
         }
 
         return $rules;
@@ -45,7 +46,8 @@ class PSGCCitymunRequest extends ApiRequestManager
         return [
             'required' => "Field is required.",
             'is_region_code' => "This region does not exist.",
-            'is_province_code' => "This province does not exist."
+            'is_province_code' => "This province does not exist.",
+            'is_citymun_code' => "This citymun does not exist."
         ];
     }
 }

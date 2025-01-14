@@ -27,13 +27,13 @@ class PSGCProvinceRequest extends ApiRequestManager
         $rules = [
             'region_code' => "required|is_region_code",
             'province_sku' => "required",
-            'province_code' => "required|unique:psgc_provinces,province_code,{$id},id",
+            'province_code' => "required|unique:psgc_provinces,province_code,{$id},province_code",
             'province_desc' => "required",
             'province_status' => "required",
         ];
 
         if($id > 0){
-            $rules['province_code'] = "nullable|unique:psgc_provinces,province_code,{$id},id";
+            $rules['province_code'] = "nullable|unique:psgc_provinces,province_code,{$id},province_code";
         }
 
         return $rules;

@@ -21,4 +21,10 @@ class CustomValidator extends Validator
 
         return $is_province_code ? true : false;
     }
+
+    public function validateIsCitymunCode($attribute, $value, $parameters){
+        $is_citymun_code = PSGCCitymun::where('citymun_code', $value)->first();
+
+        return $is_citymun_code ? true : false;
+    }
 }

@@ -24,6 +24,9 @@ Route::group(['as' => "api.", 'prefix' => "api", 'namespace' => "Api", 'middlewa
     });
     Route::group(['prefix' => "barangays", 'as' => "barangays."], function(){
         Route::get('/', ['as' => "index", 'uses' => "PSGCBarangayController@index"]);
+        Route::post('/store', ['as' => "store", 'uses' => "PSGCBarangayController@store"]);
+        Route::post('/update/{id?}', ['as' => "update", 'uses' => "PSGCBarangayController@update"]);
+        Route::any('/delete/{id?}', ['as' => "delete", 'uses' => "PSGCBarangayController@destroy"]);
         Route::get('/show/{id?}', ['as' => "show", 'uses' => "PSGCBarangayController@show"]);
     });
 });

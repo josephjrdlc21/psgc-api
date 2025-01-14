@@ -25,13 +25,13 @@ class PSGCRegionRequest extends ApiRequestManager
         $id = $this->id ?? 0;
 
         $rules = [
-            'region_code' => "required|unique:psgc_regions,region_code,{$id},id",
+            'region_code' => "required|unique:psgc_regions,region_code,{$id},region_code",
             'region_desc' => "required",
             'region_status' => "required"
         ];
 
         if($id > 0){
-            $rules['region_code'] = "nullable|unique:psgc_regions,region_code,{$id},id";
+            $rules['region_code'] = "nullable|unique:psgc_regions,region_code,{$id},region_code";
         }
 
         return $rules;
