@@ -1,6 +1,11 @@
 <?php
 
 Route::group(['as' => "api.", 'prefix' => "api", 'namespace' => "Api", 'middleware' => ["api"]], function(){
+    Route::group(['prefix' => "auth", 'as' => "auth."], function(){
+        Route::post('/register', ['as' => "register", 'uses' => "AuthenticationController@register"]);
+        Route::post('/logout', ['as' => "logout", 'uses' => "AuthenticationController@logout"]);
+    });
+
     Route::group(['prefix' => "regions", 'as' => "regions."], function(){
         Route::get('/', ['as' => "index", 'uses' => "PSGCRegionsController@index"]);
         Route::post('/store', ['as' => "store", 'uses' => "PSGCRegionsController@store"]);

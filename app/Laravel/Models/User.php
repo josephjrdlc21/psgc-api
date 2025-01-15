@@ -67,8 +67,6 @@ class User extends Authenticatable implements JWTSubject{
      * @return array
      */
     public function getJWTCustomClaims(){
-        return [
-            'iss' => env("JWT_ISSUER"),
-        ];
+        return [];
     }
 }

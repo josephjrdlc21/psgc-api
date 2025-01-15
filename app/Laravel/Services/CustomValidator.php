@@ -27,4 +27,9 @@ class CustomValidator extends Validator
 
         return $is_citymun_code ? true : false;
     }
+
+    public function validatePasswordFormat($attribute, $value, $parameters)
+    {
+        return preg_match(("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$/"), $value);
+    }
 }
