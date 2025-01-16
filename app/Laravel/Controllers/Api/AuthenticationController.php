@@ -30,6 +30,32 @@ class AuthenticationController extends Controller{
         $this->guard = "api";
     }
 
+    public function login(PageRequest $request){
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        if(!$token = auth($this->guard)->attempt(['email' => $email, 'password' => $password])){
+            $this->response['status'] = false;
+            $this->response['status_code'] = "UNAUTHORIZED";
+            $this->response['msg'] = "Invalid account credentials.";
+            $this->response_code = 401;
+            goto callback;
+        }
+
+        $user = auth($this->guard)->user();
+
+        $this->response['status'] = true;
+        $this->response['status_code'] = "LOGIN_SUCCESS";
+        $this->response['msg'] = "Hi {$user->name}!";
+        $this->response['token'] = $token;
+        $this->response['token_type'] = "Bearer";
+        $this->response['data'] = $this->transformer->transform($user, new UserTransformer, 'item');
+        $this->response_code = 200;
+
+        callback:
+        return response()->json($this->api_response($this->response), $this->response_code);
+    }
+
     public function register(RegisterRequest $request){
         DB::beginTransaction();
         try{
